@@ -13,7 +13,7 @@
   <f:entry title="Project File" field="projFile">
     <f:textbox default="zanata.xml"></f:textbox>
   </f:entry>
-  <f:entry title="Zanata Credential" field="zanataCredentialsId">
+  <f:entry title="Zanata Credentials" field="zanataCredentialsId">
     <c:select/>
   </f:entry>
   <f:entry title="Enable" field="syncG2zanata"

@@ -121,16 +121,13 @@ public class ZanataCliBuilder extends Builder implements SimpleBuildStep {
          listener.getLogger().println("Running Zanata Sync, project file: " + projFile);
 
         // TODO we should depend on credentials-binding-plugin and use credential as environment variables
-        IdCredentials cred = CredentialsProvider.findCredentialById(zanataCredentialsId, IdCredentials.class, build);
+        StandardUsernameCredentials cred = CredentialsProvider.findCredentialById(zanataCredentialsId, StandardUsernameCredentials.class, build);
         if (cred == null) {
             throw new AbortException("Zanata credential with ID [" + zanataCredentialsId + "] can not be found.");
         }
         CredentialsProvider.track(build, cred);
-        StandardUsernameCredentials usernameCredentials = (StandardUsernameCredentials) cred;
-        String apiKey =
-                ((PasswordCredentials) usernameCredentials).getPassword()
-                        .getPlainText();
-        String username = usernameCredentials.getUsername();
+        String username = cred.getUsername();
+        String apiKey = getApiKeyOrThrow(cred);
 
         EnvVars envs = build.getEnvironment(listener);
         envs.put("ZANATA_USERNAME", username);
@@ -142,7 +139,9 @@ public class ZanataCliBuilder extends Builder implements SimpleBuildStep {
             listener.getLogger().println("Git to Zanata sync is enabled, running command:");
             listener.getLogger().println(commandG2Z + "\n");
 
-            if  (runShellCommandInBuild(commandG2Z  + " --username $ZANATA_USERNAME --key $ZANATA_APIKEY", listener, build, workspace)){
+             String git2ZanataCMDWithCredential = commandG2Z +
+                     " --username $ZANATA_USERNAME --key $ZANATA_APIKEY";
+             if  (runShellCommandInBuild(git2ZanataCMDWithCredential, listener, build, workspace)){
                 listener.getLogger().println("Git to Zanata sync finished.\n");
             }
 
@@ -155,7 +154,9 @@ public class ZanataCliBuilder extends Builder implements SimpleBuildStep {
             listener.getLogger().println("Zanata to Git sync is enabled, running command:");
             listener.getLogger().println(commandZ2G + "\n");
 
-            if  (runShellCommandInBuild(commandZ2G  + " --username $ZANATA_USERNAME --key $ZANATA_APIKEY", listener, build, workspace)){
+             String zanata2GitCMDWithCredential = commandZ2G +
+                     " --username $ZANATA_USERNAME --key $ZANATA_APIKEY";
+             if  (runShellCommandInBuild(zanata2GitCMDWithCredential, listener, build, workspace)){
                 listener.getLogger().println("Zanata to Git sync finished.\n");
             }
          };
@@ -166,6 +167,14 @@ public class ZanataCliBuilder extends Builder implements SimpleBuildStep {
 
          This also shows how you can consult the global configuration of the builder
          */
+    }
+
+    private static String getApiKeyOrThrow(StandardUsernameCredentials cred) {
+        if (cred instanceof PasswordCredentials) {
+            return ((PasswordCredentials)cred).getPassword().getPlainText();
+        }
+        throw new RuntimeException("credential with id [" + cred.getId()
+                + "] does not have password");
     }
 
     private boolean runShellCommandInBuild(String command, TaskListener listener, Run<?,?> builder, FilePath workspace){
@@ -225,7 +234,7 @@ public class ZanataCliBuilder extends Builder implements SimpleBuildStep {
              return false;
          }
 
-        return true;
+         return true;
     }
 
     // Overridden for better type safety.
