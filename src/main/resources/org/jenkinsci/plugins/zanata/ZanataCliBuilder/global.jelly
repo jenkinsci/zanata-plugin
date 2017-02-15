@@ -12,15 +12,7 @@
     tags they use. Views are always organized according to its owner class,
     so it should be straightforward to find them.
   -->
-  <f:section title="Zanata Configuration(ini)">
-    <f:entry title="Location" field="iniLocation"
-      description="The location of zanata.ini file">
-      <f:textbox default=".config/zanata.ini"></f:textbox> 
-    </f:entry>
-    <f:entry title="Contents" field="iniContents"
-      description="The contents of zanata.ini">
-      <f:textarea></f:textarea> 
-    </f:entry>
+  <f:section title="Zanata cli script template">
     <f:entry title="Command to sync from source Git repo to Zanata" field="commandG2Z">
       <f:textarea default="find . -type f -not -path &quot;*/target/*&quot; -name 'zanata.xml' \&#10;  -execdir pwd \; \&#10;  -execdir ls \; \&#10;  -execdir echo 'Running zanata-cli -B stats\n' \; \&#10;  -execdir zanata-cli -B stats \; \&#10;  -execdir echo 'Running zanata-cli -B push\n' \; \&#10;  -execdir zanata-cli -B push \; \&#10;  -execdir echo 'Running zanata-cli -B pull\n' \; \&#10;  -execdir zanata-cli -B pull \;"></f:textarea>
     </f:entry>

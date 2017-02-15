@@ -1,5 +1,5 @@
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:c="/lib/credentials">
   <!--
     This jelly script is used for per-project configuration.
 
@@ -12,6 +12,9 @@
   -->
   <f:entry title="Project File" field="projFile">
     <f:textbox default="zanata.xml"></f:textbox>
+  </f:entry>
+  <f:entry title="Zanata Credentials" field="zanataCredentialsId">
+    <c:select/>
   </f:entry>
   <f:entry title="Enable" field="syncG2zanata"
       description="Check to sync from Git Repo to Zanata">
