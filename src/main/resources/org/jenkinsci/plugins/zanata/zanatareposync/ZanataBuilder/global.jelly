@@ -12,12 +12,12 @@
     tags they use. Views are always organized according to its owner class,
     so it should be straightforward to find them.
   -->
-  <f:section title="Zanata cli script template">
-    <f:entry title="Command to sync from source Git repo to Zanata" field="commandG2Z">
-      <f:textarea default="${descriptor.defaultGitToZanataScript}"></f:textarea>
-    </f:entry>
-    <f:entry title="Command to sync from Zanata to source Git repo" field="commandZ2G">
-      <f:textarea default="${descriptor.defaultZanataToGitScript}"></f:textarea>
+  <!--
+  <f:section title="Hello World Builder">
+    <f:entry title="French" field="useFrench"
+      description="Check if we should say hello in French">
+      <f:checkbox />
     </f:entry>
   </f:section>
+  -->
 </j:jelly>

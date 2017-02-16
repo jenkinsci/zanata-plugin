@@ -1,0 +1,39 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:c="/lib/credentials">
+  <!--
+    This jelly script is used for per-project configuration.
+
+    See global.jelly for a general discussion about jelly script.
+  -->
+
+  <!--
+    Creates a text field that shows the value of the "name" property.
+    When submitted, it will be passed to the corresponding constructor parameter.
+  -->
+
+  <f:entry title="Zanata Credential" field="zanataCredentialsId">
+    <c:select/>
+  </f:entry>
+  <f:entry title="Push to Zanata" field="pushToZanata">
+    <f:checkbox default="true" />
+  </f:entry>
+  <f:entry title="Pull from Zanata (and commit if it's Git SCM)" field="pullFromZanata">
+    <f:checkbox default="true"/>
+  </f:entry>
+  <f:section title="Advanced Options">
+    <f:advanced align="left">
+       <f:entry title="Zanata Server URL" field="zanataURL">
+         <f:textbox />
+       </f:entry>
+       <f:entry title="Sync Option" field="syncOption" description="push source, translation or both from Git to Zanata">
+         <f:select />
+       </f:entry>
+       <f:entry title="Zanata project configs" field="zanataProjectConfigs" description="zanata.xml relative path to Git base dir">
+         <f:textbox />
+       </f:entry>
+       <f:entry title="Locale IDs" field="zanataLocaleIds" description="restrict what locale(s) you want to push and pull. e.g. zh,ja. Leave blank for all locales defined on server">
+         <f:textbox />
+       </f:entry>
+    </f:advanced>
+  </f:section>
+</j:jelly>

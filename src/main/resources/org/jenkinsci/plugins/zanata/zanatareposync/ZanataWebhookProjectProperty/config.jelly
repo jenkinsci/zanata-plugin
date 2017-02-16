@@ -1,0 +1,14 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+  <f:block>
+    <f:optionalBlock name="${descriptor.ZANATA_WEBHOOK_PROJECT_BLOCK_NAME}" title="Accept Zanata Webhook"
+        checked="${instance.acceptZanataWebhook}" >
+      <f:entry title="URL to register on Zanata" field="URLForWebhook">
+        <f:textbox default="${descriptor.urlForWebhook(it.name)}" readonly="true" />
+      </f:entry>
+      <f:entry title="Zanata Webhook Secret (optional)">
+        <f:password field="zanataWebhookSecret" />
+      </f:entry>
+    </f:optionalBlock>
+  </f:block>
+</j:jelly>

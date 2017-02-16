@@ -1,5 +1,5 @@
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:c="/lib/credentials">
   <!--
     This jelly script is used for per-project configuration.
 
@@ -13,6 +13,9 @@
   <f:entry title="Project File" field="projFile">
     <f:textbox default="zanata.xml"></f:textbox>
   </f:entry>
+  <f:entry title="Zanata Credential" field="zanataCredentialsId">
+    <c:select/>
+  </f:entry>
   <f:entry title="Enable" field="syncG2zanata"
       description="Check to sync from Git Repo to Zanata">
       <f:checkbox/>
@@ -20,6 +23,10 @@
   <f:entry title="Enable" field="syncZ2git"
       description="Check to prepare commit of translation from Zanata to Git, you need to push in After Build.">
       <f:checkbox/>
+  </f:entry>
+  <f:entry title="Extra PATH entries" field="extraPathEntries"
+      description="Extra PATH entries you want to add to the script execution environment. e.g. a:b">
+    <f:textbox ></f:textbox>
   </f:entry>
 
 

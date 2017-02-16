@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:translations xmlns:ns2="http://zanata.org/namespace/api/" xmlns:ns3="http://zanata.org/namespace/api/gettext/">
+  <extensions/>
+  <targets>
+    <ns2:text-flow-target res-id="greeting" revision="1" state="Approved" resourceRevision="1">
+      <ns2:person email="admin@noreply.org" name="Administrator"/>
+      <content>你好</content>
+      <extensions/>
+    </ns2:text-flow-target>
+  </targets>
+</ns2:translations>

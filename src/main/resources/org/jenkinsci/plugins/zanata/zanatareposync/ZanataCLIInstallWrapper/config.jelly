@@ -1,0 +1,29 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
+         xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <f:entry title="" description="" field="zanataCLIInstall">
+      <f:repeatable name="selectedCLIs" var="selectedCLI" items="${instance.selectedCLIs}"
+        add="Add Tool" header="Zanata CLI to install">
+         <j:set var="toolDescriptor" value="${descriptor}" />
+        <table width="100%">
+           <f:entry title="Zanata CLI selection">
+             <select class="setting-input" name="selectedCLIs.name">
+              <j:forEach var="installation" items="${descriptor.installations}">
+                <f:option selected="${installation.name==selectedCLI.name}"
+                          value="${installation.name}">${installation.name}</f:option>
+              </j:forEach>
+             </select>
+            <div align="right">
+              <f:repeatableDeleteButton value="Delete"/>
+            </div>
+          </f:entry>
+        </table>        
+      </f:repeatable>      
+      <table width="100%">
+        <f:entry field="convertHomesToUppercase">
+          <f:checkbox title="Convert #CLIName_HOME variables to the upper-case" checked="${instance.isConvertHomesToUppercase()}"/>
+        </f:entry>
+      </table>
+  </f:entry>
+ 
+</j:jelly>

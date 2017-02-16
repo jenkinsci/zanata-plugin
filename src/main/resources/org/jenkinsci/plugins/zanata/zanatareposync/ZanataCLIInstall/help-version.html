@@ -1,0 +1,7 @@
+<div>
+  The Zanata CLI version that corresponds to the installed tool. This will then be used as the tool name.
+  Since tool name will become part of environment variable, all '.', '-' will be converted to '_'.
+  e.g. input "4.0.0" will make the installation with "zanata_cli_4_0_0" as tool name.
+  All Zanata CLI installations will appear in your job configuration to choose for installing on the jenkins node.
+  The installed CLI will not affect the build-in Zanata Sync build step which uses a pre-bundled java library (a sub module from a fixed version of Zanata CLI)
+</div>
