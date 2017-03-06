@@ -1,4 +1,13 @@
 #!/usr/bin/env groovy
+
+println env.JENKINS_URL
+println env.JENKINS_URL.startWith('https://ci.jenkins.io')
+if (env.JENKINS_URL && env.JENKINS_URL.startWith('https://ci.jenkins.io')) {
+  /* running on ci.jenkins.io, we will have `buildPlugin` step provided by: https://github.com/jenkins-infra/pipeline-library */
+  buildPlugin()
+  return
+}
+
 @Library('github.com/zanata/zanata-pipeline-library@master')
 
 /* Only keep the 10 most recent builds. */
