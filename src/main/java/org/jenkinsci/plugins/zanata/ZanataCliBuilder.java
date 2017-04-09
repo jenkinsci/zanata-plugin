@@ -71,19 +71,23 @@ import hudson.EnvVars;
 public class ZanataCliBuilder extends Builder implements SimpleBuildStep {
 
     // FIXME projFile is not used in script template
-    private final String projFile;
+    //private final String projFile;
     private final String zanataCredentialsId;
     private final boolean syncG2zanata;
+    private final String commandG2Z;
     private final boolean syncZ2git;
+    private final String commandZ2G;
     private String extraPathEntries;
 
 
     // Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
     @DataBoundConstructor
-    public ZanataCliBuilder(String projFile, boolean syncG2zanata, boolean syncZ2git, String zanataCredentialsId) {
-        this.projFile = projFile;
+    public ZanataCliBuilder(boolean syncG2zanata, String commandG2Z, boolean syncZ2git, String commandZ2G, String zanataCredentialsId) {
+        //this.projFile = projFile;
         this.syncG2zanata = syncG2zanata;
+        this.commandG2Z = commandG2Z;
         this.syncZ2git = syncZ2git;
+        this.commandZ2G = commandZ2G;
         this.zanataCredentialsId = zanataCredentialsId;
     }
 
@@ -98,16 +102,24 @@ public class ZanataCliBuilder extends Builder implements SimpleBuildStep {
      * We'll use this from the {@code config.jelly}.
      */
 
-    public String getProjFile() {
-        return projFile;
-    }
+    //public String getProjFile() {
+    //    return projFile;
+    //}
 
     public boolean getSyncG2zanata() {
         return syncG2zanata;
     }
 
+    public String getCommandG2Z() {
+        return commandG2Z;
+    }
+ 
     public boolean getSyncZ2git() {
         return syncZ2git;
+    }
+
+    public String getCommandZ2G() {
+        return commandZ2G;
     }
 
     public String getZanataCredentialsId() {
@@ -122,10 +134,7 @@ public class ZanataCliBuilder extends Builder implements SimpleBuildStep {
     public void perform(Run<?,?> build, FilePath workspace, Launcher launcher, TaskListener listener)
             throws IOException, InterruptedException {
 
-         String commandG2Z;
-         String commandZ2G;
-
-         listener.getLogger().println("Running Zanata Sync, project file: " + projFile);
+         //listener.getLogger().println("Running Zanata Sync, project file: " + projFile);
 
         // TODO we should depend on credentials-binding-plugin and use credential as environment variables
         IdCredentials cred = CredentialsProvider.findCredentialById(zanataCredentialsId, IdCredentials.class, build);
@@ -161,7 +170,7 @@ public class ZanataCliBuilder extends Builder implements SimpleBuildStep {
 
 
         if (syncG2zanata) {
-            commandG2Z = getDescriptor().getCommandG2Z();
+            //commandG2Z = getDescriptor().getCommandG2Z();
 
             listener.getLogger().println("Git to Zanata sync is enabled, running command:");
             listener.getLogger().println(commandG2Z + "\n");
@@ -177,7 +186,7 @@ public class ZanataCliBuilder extends Builder implements SimpleBuildStep {
 
          if (syncZ2git) {
              // FIXME these two commands are coming from global configuration. If you upload the plugin and haven't gone to global config page then hit save, these two value will be null
-            commandZ2G = getDescriptor().getCommandZ2G();
+            //commandZ2G = getDescriptor().getCommandZ2G();
 
             listener.getLogger().println("Zanata to Git sync is enabled, running command:");
             listener.getLogger().println(commandZ2G + "\n");
@@ -256,31 +265,6 @@ public class ZanataCliBuilder extends Builder implements SimpleBuildStep {
      */
     @Extension // This indicates to Jenkins that this is an implementation of an extension point.
     public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
-        public static final String defaultGitToZanataScript =
-                "find . -type f -not -path \"*/target/*\" -name 'zanata.xml' \\\n" +
-                "  -execdir pwd \\; \\\n" +
-                "  -execdir ls \\; \\\n" +
-                "  -execdir echo 'Running zanata-cli -B stats\\n' \\; \\\n" +
-                "  -execdir zanata-cli -B stats --username $ZANATA_USERNAME --key $ZANATA_APIKEY \\; \\\n" +
-                "  -execdir echo 'Running zanata-cli -B push\\n' \\; \\\n" +
-                "  -execdir zanata-cli -B push --username $ZANATA_USERNAME --key $ZANATA_APIKEY \\; \\\n" +
-                "  -execdir echo 'Running zanata-cli -B pull\\n' \\; \\\n" +
-                "  -execdir zanata-cli -B pull --username $ZANATA_USERNAME --key $ZANATA_APIKEY \\;";
-
-        public static final String defaultZanataToGitScript =
-                "find . -type f -not -path \"*/target/*\" -name 'zanata.xml' \\" +
-                "  -execdir echo \"=== Commiting new translation $BUILD_TAG...\\n\" \\; \\\n" +
-                "  -execdir pwd \\; \\\n" +
-                "  -execdir ls \\; \\\n" +
-                "  -execdir echo '=== Git add...\\n' \\; \\\n" +
-                "  -execdir git add . \\; \\\n" +
-                "  -execdir echo '=== Git commit ...\\n' \\; \\\n" +
-                "  -execdir git commit -m \"$BUILD_TAG\" \\; \\\n" +
-                "  -execdir echo \"=== Finished commit preparation - $BUILD_TAG.\\n\" \\;";
-
-        private String commandG2Z;
-        private String commandZ2G;
-
 
         /**
          * In order to load the persisted global configuration, you have to
@@ -380,19 +364,11 @@ public class ZanataCliBuilder extends Builder implements SimpleBuildStep {
 
         @Override
         public boolean configure(StaplerRequest req, JSONObject formData) throws FormException {
-            commandG2Z = formData.getString("commandG2Z");
-            commandZ2G = formData.getString("commandZ2G");
 
             save();
             return super.configure(req,formData);
         }
 
-        public String getCommandG2Z() {
-            return commandG2Z;
-        }
-        public String getCommandZ2G() {
-            return commandZ2G;
-        }
     }
 }
 
