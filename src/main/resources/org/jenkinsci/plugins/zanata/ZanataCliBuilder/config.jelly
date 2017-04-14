@@ -13,19 +13,19 @@
   <f:entry title="Zanata Credential" field="zanataCredentialsId">
     <c:select/>
   </f:entry>
-  <f:entry title="Enable" field="syncG2zanata"
+  <f:entry title="Enable" field="syncGitToZanata"
       description="Check to sync from Git Repo to Zanata">
       <f:checkbox/>
   </f:entry>
-  <f:entry title="Command to sync from source Git repo to Zanata" field="commandG2Z">
-    <f:textarea default="find . -type f -not -path &quot;*/target/*&quot; -name 'zanata.xml' \&#10;  -execdir pwd \; \&#10;  -execdir ls \; \&#10;  -execdir echo 'Running zanata-cli -B stats\n' \; \&#10;  -execdir zanata-cli -B stats --username $ZANATA_USERNAME --key $ZANATA_APIKEY  \; \&#10;  -execdir echo 'Running zanata-cli -B push\n' \; \&#10;  -execdir zanata-cli -B push --username $ZANATA_USERNAME --key $ZANATA_APIKEY  \; \&#10;  -execdir echo 'Running zanata-cli -B pull\n' \; \&#10;  -execdir zanata-cli -B pull --username $ZANATA_USERNAME --key $ZANATA_APIKEY \;"></f:textarea>
+  <f:entry title="Command to sync from source Git repo to Zanata" field="commandsGitToZanata">
+    <f:textarea default="${descriptor.defaultGitToZanataScript}"></f:textarea>
   </f:entry>
-  <f:entry title="Enable" field="syncZ2git"
+  <f:entry title="Enable" field="syncZanataToGit"
       description="Check to prepare commit of translation from Zanata to Git, you need to push in After Build.">
       <f:checkbox/>
   </f:entry>
-  <f:entry title="Command to sync from Zanata to source Git repo" field="commandZ2G">
-    <f:textarea default="find . -type f -not -path &quot;*/target/*&quot; -name 'zanata.xml' \&#10;  -execdir echo &quot;=== Commiting new translation $BUILD_TAG...\n&quot; \; \&#10;  -execdir pwd \; \&#10;  -execdir ls \; \&#10;  -execdir echo '=== Git add...\n' \; \&#10;  -execdir git add . \; \&#10;  -execdir echo '=== Git commit ...\n' \; \&#10;  -execdir git commit -m &quot;$BUILD_TAG&quot; \; \&#10;  -execdir echo &quot;=== Finished commit preparation - $BUILD_TAG.\n&quot; \;"></f:textarea>
+  <f:entry title="Command to sync from Zanata to source Git repo" field="commandsZanataToGit">
+    <f:textarea default="${descriptor.defaultZanataToGitScript}"></f:textarea>
   </f:entry>
   <f:entry title="Extra PATH entries" field="extraPathEntries"
       description="Extra PATH entries you want to add to the script execution environment. e.g. a:b">
