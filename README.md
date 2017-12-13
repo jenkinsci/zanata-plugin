@@ -29,4 +29,4 @@ hpiPluginRun.sh
 Then access the local instance at http://localhost:8080/jenkins/
 
 ### User manual
-[User manual](http://zanata-jenkins-plugin.readthedocs.io)
+http://zanata-jenkins-plugin.readthedocs.io
